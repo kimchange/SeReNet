@@ -25,7 +25,7 @@ Download our code using
 
 ```
 cd ~
-git clone SeReNet.git
+git clone https://github.com/kimchange/SeReNet.git
 ```
 
 ### Create SeReNet ananconda environment
