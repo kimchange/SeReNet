@@ -83,6 +83,7 @@ After about 16 hours on a single NVIDIA-A100-SXM4 GPU, the SeReNet model will co
 If you want to try SeReNet, you can run
 
 ```
+matlab -nodesktop
 cd ~/SeReNet-main/code
 python test.py --model ../pth/serenet_pth/epoch-800.pth
 ```
