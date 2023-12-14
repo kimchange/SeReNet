@@ -11,8 +11,7 @@ More details please refer to the companion paper where this method first occurre
 
 ## Recomented System Configuration
 
-* a NVIDIA-A100-SXM4 gpu or better
-* a NVIDIA-RTX3090 gpu or better
+* a NVIDIA-A100-SXM4 / NVIDIA-RTX3090 gpu or better
 * 128GB RAM
 * 1TB disk space
 * Scanning Light field microscopy captured data
