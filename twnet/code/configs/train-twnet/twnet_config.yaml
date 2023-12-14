@@ -1,0 +1,38 @@
+train_dataset:
+  dataset:
+    name: image-folder
+    args:
+      tag: test_No
+      root_path: ../trainingset/all_realign_488/
+      repeat: 1
+      first_k: 90
+      last_k: 90
+      cache: in_memory
+  wrapper:
+    name: twnet-wrapper
+    args:
+      inp_size: 153
+      randomSeed: 0
+      Nnum: 13
+      scanning: 3
+      normalize_mode: percentile
+      # maxweight: 16
+  batch_size: 1
+
+model:
+  name: twnet
+  args:
+    channels: [16, 16, 32, 32, 64]
+
+optimizer:
+  name: adam
+  args:
+    lr: 1.e-4
+
+epoch_max: 800
+
+loss_fn: 'nn.MSELoss()'
+
+epoch_save: 800
+
+input_views: [84] #, 85, 98, 97, 96, 83, 70, 71, 72, 73, 86, 99, 112, 111, 110, 109, 108, 95, 82, 69, 56, 57, 58, 59, 60, 61, 74, 87, 100, 113, 125, 124, 123, 122, 121, 107, 94, 81, 68, 55, 43, 44, 45, 46, 47, 88, 136, 80, 32]
