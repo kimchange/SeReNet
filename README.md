@@ -50,7 +50,7 @@ main_computePSF_serenet
 
 python get_psfshift.py -->
 
-The PSF file can be download from [here](www.baidu.com), then put it into `~/SeReNet-main/psf/`
+The PSF file can be download from [here](https://drive.google.com/drive/folders/1FieOk-oLh0xGwOxP5IyXufbuSrLxrgvu?usp=drive_link), then put it into `~/SeReNet-main/psf/`
 
 # DEMO
 
