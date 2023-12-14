@@ -1,4 +1,4 @@
-# SeReNet-main
+# SeReNet
 
 Self-supervised reconstruction network for microscopy light field images.
 
@@ -50,7 +50,7 @@ main_computePSF_serenet
 
 python get_psfshift.py -->
 
-The PSF file can be download from [here](https://drive.google.com/drive/folders/1FieOk-oLh0xGwOxP5IyXufbuSrLxrgvu?usp=drive_link), then put it into `~/SeReNet-main/psf/`
+The PSF file can be download from [here](https://drive.google.com/drive/folders/1FieOk-oLh0xGwOxP5IyXufbuSrLxrgvu?usp=drive_link), then put it into `~/SeReNet/psf/`
 
 # DEMO
 
@@ -58,25 +58,25 @@ The PSF file can be download from [here](https://drive.google.com/drive/folders/
 
 ### Train SeReNet
 
-If you want to train SeReNet with synthetic or experimental light field data, then you can make a config like `~/SeReNet-main/code/configs/train-serenet/serenet_config.yaml`, the example training pipeline follows:
+If you want to train SeReNet with synthetic or experimental light field data, then you can make a config like `~/SeReNet/code/configs/train-serenet/serenet_config.yaml`, the example training pipeline follows:
 
 ### Generate synthetic bubtub dataset used for training
 
 ```
-cd ~/SeReNet-main/data/
+cd ~/SeReNet/data/
 genBubtubbead_imaging_urlfm_20231204
 ```
 
-then the synthetic bubtub dataset can be found at `~/SeReNet-main/trainingdata/bubtub/x3_synthetic/`, and the folder name was written into example config.
+then the synthetic bubtub dataset can be found at `~/SeReNet/trainingdata/bubtub/x3_synthetic/`, and the folder name was written into example config.
 
 ### Train SeReNet using bubtub dataset
 
 ```
-cd ~/SeReNet-main/code/
+cd ~/SeReNet/code/
 python train_serenet.py
 ```
 
-After about 16 hours on a single NVIDIA-A100-SXM4 GPU, the SeReNet model will converage and be saved at `~/SeReNet-main/pth/serenet_pth/epoch-800.pth`
+After about 16 hours on a single NVIDIA-A100-SXM4 GPU, the SeReNet model will converage and be saved at `~/SeReNet/pth/serenet_pth/epoch-800.pth`
 
 ### Test the network
 
@@ -84,42 +84,42 @@ If you want to try SeReNet, you can run
 
 ```
 matlab -nodesktop
-cd ~/SeReNet-main/code
+cd ~/SeReNet/code
 python test.py --model ../pth/serenet_pth/epoch-800.pth
 ```
 
-Then the spatial-angular images at `~/SeReNet-main/data/demo_WDF_input.tif` will be reconstructed into a 3D volume at `~/SeReNet-main/data/demo_WDF_input_serenet.tif`
+Then the spatial-angular images at `~/SeReNet/data/demo_WDF_input.tif` will be reconstructed into a 3D volume at `~/SeReNet/data/demo_WDF_input_serenet.tif`
 
 ## Demo of axially finetuned SeReNet
 
 ### Train F-SeReNet
 
-F-SeReNet (axially finetuned SeReNet) requires a pretrained SeReNet as an initial model, for example F-SeReNet can be trained based on the previously trained model at `~/SeReNet-main/pth/serenet_pth/epoch-800.pth`.  Synthetic bubtub 3D volume data are involved in F-SeReNet training.
+F-SeReNet (axially finetuned SeReNet) requires a pretrained SeReNet as an initial model, for example F-SeReNet can be trained based on the previously trained model at `~/SeReNet/pth/serenet_pth/epoch-800.pth`.  Synthetic bubtub 3D volume data are involved in F-SeReNet training.
 
 ```
-cd ~/SeReNet-main/code
+cd ~/SeReNet/code
 python train_fserenet.py
 ```
 
-After about 6 hours, the F-SeReNet model will converage and be saved at `~/SeReNet-main/pth/fserenet_pth/epoch-800.pth`
+After about 6 hours, the F-SeReNet model will converage and be saved at `~/SeReNet/pth/fserenet_pth/epoch-800.pth`
 
 ### Test the network
 
 run
 
 ```
-cd ~/SeReNet-main/code
+cd ~/SeReNet/code
 python test.py --model ../pth/fserenet_pth/epoch-800.pth
 ```
 
-The reconstruction of spatial-angular images at `~/SeReNet-main/data/demo_WDF_input.tif` can be found at `~/SeReNet-main/data/demo_WDF_input_fserenet.tif`
+The reconstruction of spatial-angular images at `~/SeReNet/data/demo_WDF_input.tif` can be found at `~/SeReNet/data/demo_WDF_input_fserenet.tif`
 
 ## Demo of TW-Net
 
 ### Test the pretrained network
 
 ```
-cd ~/SeReNet-main/twnet/code
+cd ~/SeReNet/twnet/code
 python test.py --model ../pth/twnet_pth/epoch-800.pth
 ```
 
