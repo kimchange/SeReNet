@@ -62,7 +62,7 @@ If you want to train SeReNet with synthetic or experimental light field data, th
 ### Generate synthetic bubtub dataset used for training
 
 ```
-cd ~/SeReNet/data/
+cd ~/SeReNet/trainingset/
 genBubtubbead_imaging_urlfm_20231204
 ```
 
