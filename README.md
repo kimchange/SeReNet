@@ -62,7 +62,7 @@ If you want to train SeReNet with synthetic or experimental light field data, th
 ### Generate synthetic bubtub dataset used for training
 
 ```
-cd ~/SeReNet/trainingset/
+cd ~/SeReNet/trainingset/bubtub/dataset_generation_code
 matlab -nodesktop
 genBubtubbead_imaging_urlfm_20231204
 ```
