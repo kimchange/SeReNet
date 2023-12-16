@@ -236,18 +236,20 @@ disp([num2str(this,'%03d'),' volume done, took ',num2str(tt),' seconds']);
 [psf_r,~,~,Nnum,psf_z] = size(psf);
 
 
+
+
 LF = zeros(img_r,img_c,Nnum,Nnum,'single');
-volume = gpuArray(single(volume));
+% volume = gpuArray(single(volume));
+volume_fft = gather(fftn(ifftshift(gpuArray(single(volume)) )));
 for u=1:size(psf,3)
     for v = 1:size(psf,4)
         fsp = gpuArray.zeros(img_r,img_c,psf_z,'single');% flip z and padded version of psf
         fsp((img_r+1)/2-(psf_r-1)/2:(img_r+1)/2+(psf_r-1)/2,(img_c+1)/2-(psf_r-1)/2:(img_c+1)/2+(psf_r-1)/2,:)  = flip(gpuArray(single(squeeze(psf(:,:,u,v,:)))),3);
-        fsp = (fftn(ifftshift(fsp)));
-        sumupXG1 = single(sum((fftn(ifftshift(volume))).*fsp,3));
+        fsp = gather(fftn(ifftshift(fsp)));
+        sumupXG1 = gpuArray( single(sum(  (volume_fft).*fsp,3)) );
         LF(:,:,u,v)=gather(abs(fftshift(ifftn(sumupXG1)))./psf_z);
     end
 end
-
 
 
 LF = permute(LF,[1,2,4,3]);
