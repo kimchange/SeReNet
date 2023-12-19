@@ -111,6 +111,14 @@ cd ~/SeReNet/code
 python test.py --model ../pth/fserenet_pth/epoch-800.pth
 ```
 
+If the used device cuda memory is less than 40GB, the patched reconstruction with overlap method can be used by running
+
+```
+cd ~/SeReNet/code
+python test.py --model ../pth/fserenet_pth/epoch-800.pth --gpu 0 --inp_size 144 --overlap 15
+```
+
+
 The reconstruction of spatial-angular images at `~/SeReNet/data/demo_WDF_input.tif` can be found at `~/SeReNet/data/demo_WDF_input_fserenet.tif`
 
 ## Demo of TW-Net
