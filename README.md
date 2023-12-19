@@ -115,7 +115,7 @@ If the used device cuda memory is less than 40GB, the patched reconstruction wit
 
 ```
 cd ~/SeReNet/code
-python test.py --model ../pth/fserenet_pth/epoch-800.pth --gpu 0 --inp_size 144 --overlap 15
+python test.py --model ../pth/fserenet_pth/epoch-800.pth --inp_size 144 --overlap 15
 ```
 
 
