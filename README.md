@@ -1,10 +1,10 @@
 # SeReNet
 
-Self-supervised reconstruction network for microscopy light field images.
+Physics-driven self-supervised learning for fast high-resolution robust 3D reconstruction of light field microscopy
 
 # Overview
 
-We propose a physical model-driven self-supervised reconstruction network (SeReNet) for light-field microscopy (LFM) and scanning LFM (sLFM) by incorporating angular point spread function (PSF) priors, achieving spatially-uniform near-diffraction-limit resolution at millisecond processing speed. Rather than brute-force full-supervised learning, SeReNet adopts a self-supervised scheme, and leverages the regularized wave-optics physical priors and guide the reliable convergence to a uniform high-resolution volume without ground truth required. Furthermore, we develop an axially finetuned version of SeReNet, by additionally introducing a small number of simulated data pair priors. A series of optimizations (NLL-MPG loss, preDAO and TW-Net) enable SeReNet highly robust to optical perturbations and sample motions, broadly generalizable and free from missing cone problem.
+We propose a physics-driven self-supervised reconstruction network (SeReNet) for light-field microscopy (LFM) and scanning LFM (sLFM) by incorporating angular point spread function (PSF) priors, achieving spatially-uniform near-diffraction-limit resolution at millisecond processing speed. Rather than brute-force full-supervised learning, SeReNet adopts a self-supervised scheme, and leverages the regularized wave-optics physical priors and guide the reliable convergence to a uniform high-resolution volume without ground truth required. Furthermore, we develop an axially finetuned version of SeReNet, by additionally introducing a small number of simulated data pair priors. A series of optimizations (NLL-MPG loss, preDAO and TW-Net) enable SeReNet highly robust to optical perturbations and sample motions, broadly generalizable and free from missing cone problem.
 More details please refer to the companion paper where this method first occurred [[paper]](unavailable now). Next, we will guide you step by step to implement our method.
 
 # environments
