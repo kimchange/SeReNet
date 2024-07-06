@@ -3,9 +3,9 @@
 # The Code is created based on the method described in the following paper
 #       Zhi Lu#, Manchang Jin#, et al.,
 #       Physical model-driven self-supervised learning permits fast, high-resolution, robust, broadly-generalized 3D reconstruction for scanning light-field microscopy
-#       In submission, 2023
+#       In submission, 2024
 # Contact: ZHI LU (luz18@mails.tsinghua.edu.cn)
-# Date: 11/11/2023
+# Date: 7/7/2024
 import argparse
 import os
 
