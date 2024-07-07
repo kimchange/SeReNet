@@ -1,9 +1,9 @@
 # (SeReNet) inference script 
 # The Code is created based on the method described in the following paper
 #       Zhi Lu#, Manchang Jin#, et al.,
-#       Physical model-driven self-supervised learning permits fast, high-resolution, robust, broadly-generalized 3D reconstruction for scanning light-field microscopy
+#       Physics-driven self-supervised learning for fast high-resolution robust 3D reconstruction of light-field microscopy
 #       In submission, 2024
-# Contact: ZHI LU (luz18@mails.tsinghua.edu.cn)
+# Contact: ZHI LU (luzhi@tsinghua.edu.cn)
 # Date: 7/7/2024
 import argparse
 import os
