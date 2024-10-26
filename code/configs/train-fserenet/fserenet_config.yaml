@@ -15,7 +15,7 @@ train_dataset:
       # roi: [124,450,1,386]
       inp_size: 99
       volume_depth : 101
-      sample_views: 21
+      sample_views: 13
       sample_centerview: null
       # scale_max: 8
       randomSeed: 0
@@ -23,10 +23,8 @@ train_dataset:
       zspacing: 0.2*1e-6
       Nnum: 13
       scanning: 3
-      # RPN_noise: [10000000000,1000000,300000,100000,30000,10000,3000,1000,300,100] #[1e+10,1e+6,3e+5,1e+5,3e+4,1e+4,3e+3,1e+3,3e+2,1e+2]
-      # RGN_noise: [120, 9] # expectation variance
-      rand_factor: 1
-      # RGN_noise: [20, 5] # expectation variance
+      rand_factor: 0.1
+      RGN_noise: [0, 9] # expectation variance
   batch_size: 1
 
 model:
@@ -34,6 +32,8 @@ model:
   args:
     inChannels : 49
     outChannels : 101
+    negative_slope: 0.1
+    usingbias: True
 
 optimizer:
   name: adam
@@ -42,19 +42,13 @@ optimizer:
 
 epoch_max: 800
 epoch_save: 800
-# multi_step_lr:
-#   milestones: [200, 400, 600, 800]
-#   gamma: 0.5
 
-# loss_fn: 'utils.PoissonGaussianLoss(miu=20, var=5)'
-# loss_fn: 'utils.PoissonGaussianLoss(miu=20, var=5)'
+
+
 loss_fn: 'utils.NLLMPGLoss(miu=0, var=0)' 
-# loss_fn: 'torch.nn.MSELoss()'
 freeze_serenet: True
 
-# psf: /mnt/kimchange/psfAnalyze/PSF/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-20u_zmax20u_zspacing0.4u.mat
-# psf: /mnt/kimchange/psfAnalyze/PSF/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-10u_zmax10u_zspacing0.2u.mat
-# psf: /home/lab532/kimchange/urlfm/PSF/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-10u_zmax10u_zspacing0.2u.mat
+
 psf: ../psf/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-10u_zmax10u_zspacing0.2u.mat
 input_views: [84, 85, 98, 97, 96, 83, 70, 71, 72, 73, 86, 99, 112, 111, 110, 109, 108, 95, 82, 69, 56, 57, 58, 59, 60, 61, 74, 87, 100, 113, 125, 124, 123, 122, 121, 107, 94, 81, 68, 55, 43, 44, 45, 46, 47, 88, 136, 80, 32]
 bpmode: selectiviews

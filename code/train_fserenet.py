@@ -122,7 +122,7 @@ def train(train_loader, model, optimizer):
             batch[k] = v.cuda(non_blocking=True)
 
 
-        rand_bg = torch.rand(1).item() * 1
+        rand_bg = torch.rand(1).item() * 0.
 
         pred = model(batch['inp'] + rand_bg * global_psf_sumdhw.reshape(1, -1, 1, 1, 1), Nnum / scanning)
 

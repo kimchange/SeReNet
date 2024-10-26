@@ -81,11 +81,12 @@ def train(train_loader, model, optimizer):
             batch[k] = v.cuda(non_blocking=True)
 
         rand_factor = 1. #torch.rand(1).item()
-        rand_bg = torch.rand(1).item() * 1
+        rand_bg = torch.rand(1).item() * 0.
         batch['inp'] = batch['inp']*rand_factor + rand_bg * global_psf_sumdhw.reshape(1, -1, 1, 1, 1)
         batch['lf'] = batch['lf']*rand_factor + rand_bg * global_psf_sumdhw.reshape(1, -1, 1, 1)
         
-        pred = model(batch['inp'], Nnum / scanning)
+        # pred = model(batch['inp'], Nnum / scanning)
+        pred, pred_woupsample = model(batch['inp'], Nnum / scanning)
 
         if config.get('train_dataset')['wrapper']['args']['sample_centerview'] is not None:
             selected_index = torch.cat([torch.tensor([0]),torch.multinomial(selection_weight.view(-1), num_sample_views - 1, replacement=False, out=None)],dim=0)
@@ -111,7 +112,9 @@ def train(train_loader, model, optimizer):
 
         loss = loss_fn(predLF,  input_lf) # + predLF.abs().mean()
 
-        loss = loss + 0.1*utils.tv_2d_loss(pred) + torch.nn.L1Loss()( pred, pred.abs() )
+        # loss = loss + 0.1*utils.tv_2d_loss(pred) + torch.nn.L1Loss()( pred, pred.abs() )
+        if True:
+            loss = loss + 1000*torch.nn.L1Loss()( pred_woupsample, pred_woupsample.abs() )
 
         train_loss.add(loss.item())
 

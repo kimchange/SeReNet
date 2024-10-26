@@ -74,11 +74,11 @@ def unpad3d(x, pad):
 
 
 class ConvBlock(nn.Module):
-    def __init__(self, inChannels, outChannels, ndims = 3, kSize=3, negative_slope=0.1):
+    def __init__(self, inChannels, outChannels, ndims = 3, kSize=3, negative_slope=0.1, usingbias=False):
         super().__init__()
         convblock = getattr(nn, 'Conv%dd' %ndims)
         self.conv = nn.Sequential(*[
-            convblock(inChannels, outChannels, kSize, padding=(kSize-1)//2, stride=1),
+            convblock(inChannels, outChannels, kSize, padding=(kSize-1)//2, stride=1, bias=usingbias),
             # nn.BatchNorm2d(outChannels),
             nn.LeakyReLU(negative_slope, inplace=True)
         ])
@@ -87,7 +87,7 @@ class ConvBlock(nn.Module):
         return y
 
 class UNET(nn.Module):
-    def __init__(self, channels, kSize=3,ndims=3, negative_slope=0.1):
+    def __init__(self, channels, kSize=3,ndims=3, negative_slope=0.1, usingbias=True):
         super().__init__()
         maxpoolblock = getattr(nn, 'MaxPool%dd' %ndims)
         interpolationMode = 'bilinear'  if ndims == 2 else 'trilinear'
@@ -97,13 +97,13 @@ class UNET(nn.Module):
         conv = getattr(nn, 'Conv%dd' %ndims)
 
         self.down_layers = nn.Sequential(*[
-            ConvBlock(channels[ii], channels[ii+1], ndims = ndims, kSize=kSize, negative_slope=negative_slope)
+            ConvBlock(channels[ii], channels[ii+1], ndims = ndims, kSize=kSize, negative_slope=negative_slope, usingbias=usingbias)
             for ii in range(0, len(channels)-1, 1)
         ])
         
-        self.up_layers = [ConvBlock(channels[-1], channels[-1], ndims = ndims, kSize=kSize, negative_slope=negative_slope)]
+        self.up_layers = [ConvBlock(channels[-1], channels[-1], ndims = ndims, kSize=kSize, negative_slope=negative_slope, usingbias=usingbias)]
         for ii in range(len(channels)-1, 0, -1):
-            self.up_layers.append(ConvBlock(channels[ii]*2, channels[ii-1], ndims = ndims, kSize=kSize, negative_slope=negative_slope))
+            self.up_layers.append(ConvBlock(channels[ii]*2, channels[ii-1], ndims = ndims, kSize=kSize, negative_slope=negative_slope, usingbias=usingbias))
 
         self.up_layers = nn.Sequential(*self.up_layers)
 
@@ -126,26 +126,26 @@ class UNET(nn.Module):
 
 @register('fserenet')
 class FSERENET(nn.Module):
-    def __init__(self, inChannels, outChannels=101, negative_slope=0.1):
+    def __init__(self, inChannels, outChannels=101, negative_slope=0.1,usingbias=True, reset_param=False):
         super().__init__()
 
         self.fusion =  nn.Sequential( # 8conv
-            nn.Conv3d(inChannels, 64, kernel_size=(3,3,3),stride=1,padding=(1,1,1) ),nn.LeakyReLU(negative_slope, inplace=True),
-            nn.Conv3d(64, 32, kernel_size=(3,3,3),stride=1,padding=(1,1,1) ),nn.LeakyReLU(negative_slope, inplace=True),
-            nn.Conv3d(32, 32, kernel_size=(3,3,3),stride=1,padding=(1,1,1) ),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(inChannels, 64, kernel_size=(3,3,3),stride=1,padding=(1,1,1), bias = usingbias ),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(64, 32, kernel_size=(3,3,3),stride=1,padding=(1,1,1), bias = usingbias ),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(32, 32, kernel_size=(3,3,3),stride=1,padding=(1,1,1), bias = usingbias ),nn.LeakyReLU(negative_slope, inplace=True),
 
-            nn.Conv3d(32, 16, kernel_size=(3,3,3),stride=1,padding=(1,1,1) ),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(32, 16, kernel_size=(3,3,3),stride=1,padding=(1,1,1), bias = usingbias ),nn.LeakyReLU(negative_slope, inplace=True),
             upsample3dhw(2),
-            nn.Conv3d(16,16,kernel_size=(3,3,3),stride=1,padding=(1,1,1)),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(16,16,kernel_size=(3,3,3),stride=1,padding=(1,1,1), bias = usingbias),nn.LeakyReLU(negative_slope, inplace=True),
 
-            nn.Conv3d(16,8,kernel_size=(3,3,3),stride=1,padding=(1,1,1)),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(16,8,kernel_size=(3,3,3),stride=1,padding=(1,1,1), bias = usingbias),nn.LeakyReLU(negative_slope, inplace=True),
             upsample3dhw(2),
         )
 
-        self.decoder = UNET(channels=[8, 8, 16], kSize=3, ndims=3, negative_slope=negative_slope)# models.make({'name': 'unet', 'args':{'ndims':3, 'channels':[4, 8, 16],'kSize':3}})
+        self.decoder = UNET(channels=[8, 8, 16], kSize=3, ndims=3, negative_slope=negative_slope, usingbias=usingbias)
 
         self.final_conv = nn.Sequential( 
-            nn.Conv3d(8,1,kernel_size=(3,3,3),stride=1, padding=(1,1,1)),nn.LeakyReLU(negative_slope, inplace=True),
+            nn.Conv3d(8,1,kernel_size=(3,3,3),stride=1, padding=(1,1,1),bias = usingbias),nn.LeakyReLU(negative_slope, inplace=True),
         )
             
 

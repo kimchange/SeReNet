@@ -43,10 +43,11 @@ def ensure_path(filename):
     if ('/') in filename:
         folder = filename[0:filename.rfind('/')]
         if not os.path.exists(folder):
-            try:
-                os.mkdir(folder) 
-            except:
-                os.makedirs(folder) 
+            os.makedirs(folder,exist_ok=True) 
+            # try:
+            #     os.mkdir(folder) 
+            # except:
+            #     os.makedirs(folder) 
     return
 
 
@@ -87,9 +88,9 @@ if __name__ == '__main__':
     
     parser.add_argument('--model', default="../pth/serenet_pth/epoch-800.pth")
     # parser.add_argument('--model', default="../pth/fserenet_pth/epoch-800.pth")
-    parser.add_argument('--resolution', default='101,1183,1183')
+    parser.add_argument('--resolution', default='101,1027,1027')
     parser.add_argument('--gpu', default='0')
-    parser.add_argument('--inp_size', default='273')# 234
+    parser.add_argument('--inp_size', default='237')# 234
     parser.add_argument('--overlap', default='0')# 9
     parser.add_argument('--startframe', default='0')
     parser.add_argument('--psfshift', default="../psf/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-10u_zmax10u_zspacing0.2u_psfshift_49views.pt")
@@ -99,8 +100,9 @@ if __name__ == '__main__':
     parser.add_argument('--order', default='1')
     parser.add_argument('--config', default="./configs/train-serenet/serenet_config.yaml")
     parser.add_argument('--codefolder', default="./")
-    parser.add_argument('--savefolder', default="../data/")
-    parser.add_argument('--inputfile', default='../data/demo_WDF_input.tif')
+    parser.add_argument('--savefolder', default="../data_recon/")
+    parser.add_argument('--sourcefolder', default="../data/")
+    parser.add_argument('--inputfile', default='../data/brain_slice.tif')
 
     args = parser.parse_args()
 
@@ -135,8 +137,6 @@ if __name__ == '__main__':
     input_views = torch.tensor(config.get('input_views'))
 
     # load some system parameters from "config.yaml"
-    M = config.get('train_dataset')['wrapper']['args']['M']
-    volume_depth = config.get('train_dataset')['wrapper']['args']['volume_depth']
     Nnum = config.get('train_dataset')['wrapper']['args']['Nnum']
     scanning = config.get('train_dataset')['wrapper']['args']['scanning']
 
@@ -150,6 +150,8 @@ if __name__ == '__main__':
 
 
     files = [args.inputfile]
+    # files = os.listdir(args.sourcefolder)
+    # files = [os.path.join(args.sourcefolder,file) for file in files if ('.tif') in file]
 
     # depth decomposition meshgrid
     lfstack = torch.tensor(np.array(tifffile.imread(files[0]),dtype=np.float32))
@@ -196,6 +198,7 @@ if __name__ == '__main__':
         
         t0 = time.time()
         lfstack = lfstack[input_views,:,:].cuda()
+        lfstack = lfstack - torch.quantile(lfstack, 0.01)
 
         if int(args.AOstar):
             lfstack = preDAO(lfstack, defocus=1)
@@ -225,9 +228,6 @@ if __name__ == '__main__':
 
                     pred[torch.isnan(pred)] = 0
                     pred[torch.isinf(pred)] = 0         
-                    # pred = pred.cpu()
-                    # ret[:,round(h0*scale):round((h0+inp_size)*scale),round(w0*scale):round((w0+inp_size)*scale)]= \
-                    #     ret[:,round(h0*scale):round((h0+inp_size)*scale),round(w0*scale):round((w0+inp_size)*scale)] + pred * weight[:,0:pred.shape[-2],0:pred.shape[-1] ]
                     ret[:,round(h0*scale):round((h0+inp_size)*scale),round(w0*scale):round((w0+inp_size)*scale)]= \
                         ret[:,round(h0*scale):round((h0+inp_size)*scale),round(w0*scale):round((w0+inp_size)*scale)] + (pred * weight[:,0:pred.shape[-2],0:pred.shape[-1] ]).cpu()
                     base[:,round(h0*scale):round((h0+inp_size)*scale),round(w0*scale):round((w0+inp_size)*scale)]= \
