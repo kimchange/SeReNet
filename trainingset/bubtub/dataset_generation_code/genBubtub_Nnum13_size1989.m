@@ -22,21 +22,15 @@ synthetic.Depth = 101; %  volume depth
 % scanning index and no-scanning index2
 index1=[3:13:1989];
 index2=[7:13:1989];
-% index2=[4:7:1989*7/13];
 index3=[11:13:1989];
 % index=sort([index1,index2,index3]);
 
 GPU = 1;
 gpuDevice(1);
 psf_param.Experimental_psf = 0;
-% psf_param.Experimental_psf = 1;
-% tag = 'test';
-% tag = 'train-20231015v2-Ipsf-M63-aber0.2-resize7-101layers';
-% tag = 'train-20231204-Ipsf-M63-aber0-resize13-101layers';
-% tag = 'bubtubbeadv1'
+
 tag = ''
-% disp(['tag = ',tag])
-% savefolder = ['/media/aa/hdd/kimchange/synthetic/'];
+
 savefolder = ['../'];
 load("../../../psf/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-10u_zmax10u_zspacing0.2u.mat");
 
@@ -89,11 +83,13 @@ if num_lines > 0
 
     for line = 1:num_lines
         [X,Y,Z] = bezier3(x_index(line*3-2:line*3), y_index(line*3-2:line*3), z_index(line*3-2:line*3));
-        ind = sub2ind([synthetic.Height,synthetic.Width,round(synthetic.Depth * z_pixel_pitch / xy_pixel_pitch)], round(X),round(Y),round(Z));
+        inds = sub2ind([synthetic.Height,synthetic.Width,round(synthetic.Depth * z_pixel_pitch / xy_pixel_pitch)], round(X),round(Y),round(Z));
 
         mag = rand()*500;
         intensity = 20 + mag;
-        volume(ind) = volume(ind) + intensity;
+        if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+            volume(inds) = volume(inds) + intensity;
+        end
     end
 
 
@@ -131,7 +127,9 @@ if num_bubbles > 0
 
             for indidx = 1:length(ind)
                 inds = ind(indidx) + relativeinds;
-                volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds))  );
+                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                    volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds))  );
+                end
             end
         end
     end
@@ -155,10 +153,14 @@ if num_bubbles > 0
         for indidx = 1:length(ind)
             if mod(indidx, 3)
                 inds = ind(indidx) + relativeinds_beads;
-                volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds_beads))  );
+                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                    volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds_beads))  );
+                end
             else
                 inds = ind(indidx) + relativeinds;
-                volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds))  );
+                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                    volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds))  );
+                end
             end
             
         end
@@ -189,7 +191,9 @@ if num_beads > 0
         % volume(inds) = volume(inds) + round(40 + rand(size(ind))*200) + zeros(size(relativeinds));
         for indidx = 1:length(ind)
             inds = ind(indidx) + relativeinds;
-            volume(inds) = volume(inds) + (  round(40 + rand()*200) + zeros(size(relativeinds))  );
+            if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                volume(inds) = volume(inds) + (  round(40 + rand()*200) + zeros(size(relativeinds))  );
+            end
         end
 
     end
@@ -218,7 +222,9 @@ if num_big_beads > 0
         % volume(inds) = volume(inds) + round(10 + rand(size(ind))*100) + zeros(size(relativeinds));
         for indidx = 1:length(ind)
             inds = ind(indidx) + relativeinds;
-            volume(inds) = volume(inds) + (  round(10 + rand()*100) + zeros(size(relativeinds))  );
+            if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                volume(inds) = volume(inds) + (  round(10 + rand()*100) + zeros(size(relativeinds))  );
+            end
         end
     end
 end
