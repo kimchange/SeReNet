@@ -29,7 +29,7 @@ GPU = 1;
 gpuDevice(1);
 psf_param.Experimental_psf = 0;
 
-tag = ''
+tag = '';
 
 savefolder = ['../'];
 load("../../../psf/Ideal_PhazeSpacePSF_M63_NA1.4_zmin-10u_zmax10u_zspacing0.2u.mat");
@@ -87,7 +87,7 @@ if num_lines > 0
 
         mag = rand()*500;
         intensity = 20 + mag;
-        if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+        if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= numel(volume)) )
             volume(inds) = volume(inds) + intensity;
         end
     end
@@ -127,7 +127,7 @@ if num_bubbles > 0
 
             for indidx = 1:length(ind)
                 inds = ind(indidx) + relativeinds;
-                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= numel(volume)) )
                     volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds))  );
                 end
             end
@@ -153,12 +153,12 @@ if num_bubbles > 0
         for indidx = 1:length(ind)
             if mod(indidx, 3)
                 inds = ind(indidx) + relativeinds_beads;
-                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= numel(volume)) )
                     volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds_beads))  );
                 end
             else
                 inds = ind(indidx) + relativeinds;
-                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+                if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= numel(volume)) )
                     volume(inds) = volume(inds) + (  round(20 + rand()*200) + zeros(size(relativeinds))  );
                 end
             end
@@ -191,7 +191,7 @@ if num_beads > 0
         % volume(inds) = volume(inds) + round(40 + rand(size(ind))*200) + zeros(size(relativeinds));
         for indidx = 1:length(ind)
             inds = ind(indidx) + relativeinds;
-            if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+            if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= numel(volume)) )
                 volume(inds) = volume(inds) + (  round(40 + rand()*200) + zeros(size(relativeinds))  );
             end
         end
@@ -222,7 +222,7 @@ if num_big_beads > 0
         % volume(inds) = volume(inds) + round(10 + rand(size(ind))*100) + zeros(size(relativeinds));
         for indidx = 1:length(ind)
             inds = ind(indidx) + relativeinds;
-            if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= synthetic.Height * synthetic.Width * synthetic.Depth) )
+            if ( ( min(inds(:)) > 0 )    &&    ( max(inds(:)) <= numel(volume)) )
                 volume(inds) = volume(inds) + (  round(10 + rand()*100) + zeros(size(relativeinds))  );
             end
         end
