@@ -10,7 +10,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 
 from datasets import register
-# from utils import to_pixel_samples
+
 from utils import *
 import utils
 
@@ -56,10 +56,10 @@ class SERE(object):
         lfstack[lfstack.isnan()] = 0
         lfstack = lfstack[self.input_views,:,:]
 
-        if lfstack.shape[-1] > self.Nnum * 51:
-            h00 = random.randint(0, lfstack.shape[1] - self.Nnum * 51)
-            w00 = random.randint(0, lfstack.shape[2] - self.Nnum * 51)
-            lfstack = lfstack[:,h00:h00+self.Nnum * 51,w00:w00+self.Nnum * 51]
+        # if lfstack.shape[-1] > self.Nnum * 51:
+        #     h00 = random.randint(0, lfstack.shape[1] - self.Nnum * 51)
+        #     w00 = random.randint(0, lfstack.shape[2] - self.Nnum * 51)
+        #     lfstack = lfstack[:,h00:h00+self.Nnum * 51,w00:w00+self.Nnum * 51]
         # scale = random.uniform(1, self.scale_max)
         # scale = 13 / 3
         scale = self.Nnum / self.scanning
@@ -67,10 +67,18 @@ class SERE(object):
         if self.roi is not None:
             lfstack = lfstack[:, self.roi[0]:self.roi[1], self.roi[2]:self.roi[3]]
 
+        if self.inp_size is not None:
+            h,w = self.inp_size, self.inp_size
+            h0 = random.randint(0, lfstack.shape[1] - h)
+            w0 = random.randint(0, lfstack.shape[2] - w)
+
+            lfstack = lfstack[:,h0:h0+h,w0:w0+w]
 
         if self.rand_factor is not None:
-            rand_factor = torch.rand(1).item()*0.9 + 0.1
+            rand_factor = torch.rand(1).item()*(1-self.rand_factor) + self.rand_factor
             lfstack = lfstack * rand_factor
+        
+        lfstack_clone = lfstack.clone()
         if self.RPN_noise is not None: # add noise to achieve noise robustness
             poisson_lambda = self.RPN_noise[torch.multinomial(torch.ones(len(self.RPN_noise)),1)]
             lfstack_max = lfstack.max()
@@ -83,19 +91,10 @@ class SERE(object):
             lfstack = lfstack + gaussian_miu + torch.randn(lfstack.shape)*gaussian_sigma
             lfstack[lfstack<0] = 0
 
-        lfinp = lfstack
 
         shift = (self.shift / scale)# .round().int()
 
-        if self.inp_size is not None:
-            h,w = self.inp_size, self.inp_size
-            h0 = random.randint(0, lfstack.shape[1] - h)
-            w0 = random.randint(0, lfstack.shape[2] - w)
-
-            lfstack = lfstack[:,h0:h0+h,w0:w0+w]
-
-
-        inp = utils.rolldim_shiftgridsample(lfinp[:,h0:h0+h,w0:w0+w], shift) # [C,D,H,W]
+        inp = utils.rolldim_shiftgridsample(lfstack, shift) # [C,D,H,W]
 
 
         return {
@@ -174,7 +173,7 @@ class SERESF(object):
             volume = volume[:, H0:H0+H, W0:W0+W]
 
         if self.rand_factor is not None:
-            rand_factor = torch.rand(1).item()*0.9 + 0.1
+            rand_factor = torch.rand(1).item()*(1-self.rand_factor) + self.rand_factor
             lfstack = lfstack * rand_factor
             volume = volume * rand_factor
 
@@ -183,7 +182,9 @@ class SERESF(object):
             lfstack_max = lfstack.max()
             lfstack = lfstack / lfstack_max * poisson_lambda
             lfstack = torch.poisson(lfstack)
-            lfstack = lfstack * lfstack_max / poisson_lambda
+            # lfstack = lfstack * lfstack_max / poisson_lambda
+            lfstack = lfstack * 20 
+            volume = volume  / lfstack_max * poisson_lambda * 20
         if self.RGN_noise is not None: # add noise to achieve noise robustness
             gaussian_miu = self.RGN_noise[0]
             gaussian_sigma = self.RGN_noise[1] ** 0.5
