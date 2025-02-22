@@ -94,7 +94,7 @@ for this = 1:200
     
     
         % radius_pixel_num = floor( 3 / 2);
-        radius_pixel_num = ceil(this/2);
+        radius_pixel_num = radius_pixel_num_list(this);
     
         se = strel('sphere',radius_pixel_num);
         volume = imdilate(volume, se);
