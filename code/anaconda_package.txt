@@ -1,6 +1,0 @@
-# serenet
-conda create -n serenet python=3.9
-conda activate serenet
-conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
-conda install h5py imageio tifffile tqdm pyyaml tensorboard tensorboardX
-conda install scipy matplotlib scikit-image
