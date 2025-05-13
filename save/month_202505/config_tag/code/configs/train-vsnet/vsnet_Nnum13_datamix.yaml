@@ -1,0 +1,67 @@
+train_dataset:
+  dataset:
+    # name: paired-image-folders
+    name: image-folder
+    args:
+      # tag: vessel
+      root_path_1: ../../../../trainingset/datamix_Nnum13/x3_synthetic/
+      repeat: 3
+      first_k: 30
+      last_k: 30
+      cache: in_memory
+  wrapper:
+    name: vsnet-wrapper
+    args:
+      inp_size: 40
+      randomSeed: 0
+      Nnum: 13
+      scanning: 3
+      rand_factor: 0.1
+      RGN_noise: [0, 9] # expectation variance
+  batch_size: 1
+
+val_dataset:
+  dataset:
+    name: image-folder
+    args:
+      root_path_1: ../../../../trainingset/datamix_Nnum13/x3_synthetic/
+      repeat: 1
+      first_k: 2
+      last_k: 1
+      cache: in_memory
+  wrapper:
+    name: vsnet-wrapper
+    args:
+      inp_size: 40
+      randomSeed: 0
+      Nnum: 13
+      scanning: 3
+      rand_factor: 1
+  batch_size: 1
+
+
+
+model:
+  name: vsnet
+  args:
+    angRes : 13
+    K: 4
+    n_block: 4
+    channels: 64
+    upscale_factor: 3
+
+optimizer:
+  name: adam
+  args:
+    lr: 1.e-4
+
+
+
+loss_fns:
+  pixel_loss1: 'torch.nn.L1Loss()'
+
+epoch_max: 800
+epoch_val: 50
+epoch_save: 50
+
+# input_views: [84, 85, 98, 97, 96, 83, 70, 71, 72, 73, 86, 99, 112, 111, 110, 109, 108, 95, 82, 69, 56, 57, 58, 59, 60, 61, 74, 87, 100, 113, 125, 124, 123, 122, 121, 107, 94, 81, 68, 55, 43, 44, 45, 46, 47, 88, 136, 80, 32]

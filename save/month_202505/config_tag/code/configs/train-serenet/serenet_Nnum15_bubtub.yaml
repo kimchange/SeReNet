@@ -1,0 +1,86 @@
+train_dataset:
+  dataset:
+    # name: paired-image-folders
+    name: image-folder
+    args:
+      # tag: vessel
+      root_path_1: ../../../../trainingset/bubtub_Nnum15/x3_synthetic/
+      repeat: 6
+      first_k: 15
+      last_k: 15
+      cache: in_memory
+  wrapper:
+    name: sere-wrapper
+    args:
+      inp_size: 99
+      volume_depth : 101
+      sample_views: 11 # adjust it based on hardware memory
+      sample_centerview: null
+      randomSeed: 0
+      M: 63
+      zspacing: 0.2*1e-6
+      Nnum: 15
+      scanning: 3
+      # RPN_noise: [30000,10000,3000,1000,300,100] 
+      rand_factor: 0.1
+      RGN_noise: [0, 9] # expectation variance
+  batch_size: 1
+
+val_dataset:
+  dataset:
+    name: image-folder
+    args:
+      root_path_1: ../../../../trainingset/bubtub_Nnum15/x3_synthetic/
+      repeat: 1
+      first_k: 2
+      last_k: 1
+      cache: in_memory
+  wrapper:
+    name: sere-wrapper
+    args:
+      inp_size: 99
+      volume_depth : 101
+      sample_views: 2
+      sample_centerview: True
+      # angle_energy_norm: null
+      randomSeed: 0
+      M: 63
+      zspacing: 0.2*1e-6
+      Nnum: 15
+      scanning: 3
+      # RGN_noise: [0, 9] # expectation variance
+      rand_factor: 1
+  batch_size: 1
+
+
+
+model:
+  name: serenetup5
+  args:
+    inChannels : 81
+    reset_param: True
+    usingbias: True
+    negative_slope: 0.1
+
+optimizer:
+  name: adam
+  args:
+    lr: 1.e-4
+
+epoch_max: 800
+# multi_step_lr:
+#   milestones: [200, 400, 600, 800]
+#   gamma: 0.5
+
+# loss_fn: 'utils.PoissonGaussianLoss(miu=20, var=5)'
+loss_fns:
+  pixel_loss1: 'utils.NLLMPGLoss(miu=0, var=9)'
+
+
+epoch_val: 50
+epoch_save: 50
+
+psf: ../../../../psf/debye_integral_0_group0_aberration_induced0_circleAperture1_pupilMask1_PhazeSpacePSF_M20_NA1.05_n1.406_lambda525nm_fml536.4u_ftl180000u_zmin-30u_zmax30u_zspacing0.6u_psfshift_81views.pt
+input_views: [112, 113, 128, 127, 126, 111, 96, 97, 98, 99, 114, 129, 144, 143, 142, 141, 140, 125, 110, 95, 80, 81, 82, 83, 84, 85, 100, 115, 130, 145, 160, 159, 158, 157, 156, 155, 154, 139, 124, 109, 94, 79, 64, 65, 66, 67, 68, 69, 70, 71, 86, 101, 116, 131, 146, 161, 175, 174, 173, 172, 171, 170, 169, 153, 138, 123, 108, 93, 78, 63, 49, 50, 51, 52, 53, 54, 55, 117, 187, 107, 37]
+bpmode: selectiviews
+shiftmode: psfcenterofmass
