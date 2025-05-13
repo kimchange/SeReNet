@@ -50,6 +50,7 @@ You can see that this folder is "save", and it is organized as:
 │                                  ├── 🔬 group002.tif
 ├── 📂 twnet
 └── 📂 somethingelse
+```
 
 you can see that almost all training code are in 📂 save folder, and every time we want to start a training, change your dir to where 📄 train.py is, for example:
 
