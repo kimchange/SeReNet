@@ -1,3 +1,4 @@
+# PyTorch Implementation of RL-Net (https://github.com/MeatyPlus/Richardson-Lucy-Net)
 import argparse
 import os, sys
 

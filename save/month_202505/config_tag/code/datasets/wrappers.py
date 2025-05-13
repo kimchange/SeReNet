@@ -1,3 +1,9 @@
+# The Code is created based on the method described in the following paper
+#       Zhi Lu#, Manchang Jin#, et al.,
+#       Physics-driven self-supervised learning for fast high-resolution robust 3D reconstruction of light-field microscopy
+#       Nature, Methods 2025
+# Contact: ZHI LU (luzhi@tsinghua.edu.cn)
+# Date: 7/7/2024
 import functools
 import random
 import math

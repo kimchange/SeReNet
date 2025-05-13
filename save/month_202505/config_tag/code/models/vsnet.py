@@ -1,3 +1,8 @@
+# The Code is created based on the method described in the following paper
+#       Zhi Lu#, Yu Liu#, et al.,
+#       Virtual-scanning light-field microscopy for robust snapshot high-resolution volumetric imaging.
+#       Nature, Methods 2023
+# Contact: ZHI LU (luzhi@tsinghua.edu.cn)
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

@@ -1,3 +1,5 @@
+# Implementation of training scripts of VCD-Net from (https://github.com/xinDW/VCD-Net)
+# and HyLFM-Net from (https://github.com/kreshuklab/hylfm-net)
 
 import argparse
 import os,sys
