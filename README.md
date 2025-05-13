@@ -36,6 +36,8 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvi
 conda install h5py imageio tifffile tqdm pyyaml scipy matplotlib scikit-image tensorboard tensorboardX
 ```
 
+Our repo is build mainly using PyTorch, so installing torch has higher priority, you can refer to torch [PyTorch](https://pytorch.org/) guide to install torch based on your machine and driver.
+
 ### Obtain phase-space PSF and its center of mass "psfshift"
 
 <!-- ```
