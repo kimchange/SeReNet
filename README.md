@@ -78,13 +78,20 @@ cd ~/SeReNet/save/month_202505/config_tag/code
 python train_serenet.py
 ```
 
-After about 16 hours on a single NVIDIA-A100-SXM4 GPU, the SeReNet model will converage and be saved at `~/SeReNet/pth/serenet_pth/epoch-800.pth`
+After about 16 hours on a single NVIDIA-A100-SXM4 GPU, the SeReNet model will converage and be saved at `~/SeReNet/save/202505/serenet_Nnum13_bubtub/epoch-800.pth`
 
 ### Test the network
 
-If you want to try SeReNet, you can run
+If you want to test the just trained SeReNet, you can run
 
 ```
+cd ~/SeReNet/demo
+python test.py --model ../save/202505/serenet_Nnum13_bubtub/epoch-800.pth --inputfile ./data_3x3/L929_cell.tif
+```
+
+or you can try our pretrained SeReNet parameter:
+
+ ```
 cd ~/SeReNet/demo
 python test.py --model ./pth/serenet_pth/epoch-800.pth --inputfile ./data_3x3/L929_cell.tif
 ```
@@ -106,7 +113,14 @@ After about 6 hours, the F-SeReNet model will converage and be saved at `~/SeReN
 
 ### Test the network
 
-run
+If you want to test the just trained F-SeReNet, you can run
+
+```
+cd ~/SeReNet/demo
+python test.py --model ../save/202505/fserenet_Nnum13_bubtub/epoch-800.pth --inputfile ./data_3x3/L929_cell.tif
+```
+
+or you can try our pretrained F-SeReNet parameter:
 
 ```
 cd ~/SeReNet/demo/
@@ -120,7 +134,7 @@ cd ~/SeReNet/demo
 python test.py --model ./pth/fserenet_pth/epoch-800.pth --inp_size 126 --overlap 15 --inputfile ./data_3x3/L929_cell.tif
 ```
 
-The reconstruction of spatial-angular images at `~/SeReNet/demo/data_3x3/L929_cell.tif` can be found at `~/SeReNet/demo/data_3x3/L929_cell_fserenet.tif`
+The reconstruction of spatial-angular images at `~/SeReNet/demo/data_3x3/L929_cell.tif` can be found at `~/SeReNet/demo/data_3x3_recon/L929_cell_fserenet.tif`
 
 ## Demo of TW-Net
 
