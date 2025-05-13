@@ -59,7 +59,7 @@ The PSF file can be download from [here](https://drive.google.com/drive/folders/
 
 ### Train SeReNet
 
-If you want to train SeReNet with synthetic or experimental light field data, then you can make a config like `~/SeReNet/code/configs/train-serenet/serenet_config.yaml`, the example training pipeline follows:
+If you want to train SeReNet with synthetic or experimental light field data, then you can make a config like `~/SeReNet/save/month_202505/config_tag/code/configs/train-serenet/serenet_Nnum13_bubtub.yaml`, the example training pipeline follows:
 
 ### Generate synthetic bubtub dataset used for training
 
@@ -91,7 +91,7 @@ python test.py --model ../save/202505/serenet_Nnum13_bubtub/epoch-800.pth --inpu
 
 or you can try our pretrained SeReNet parameter:
 
- ```
+```
 cd ~/SeReNet/demo
 python test.py --model ./pth/serenet_pth/epoch-800.pth --inputfile ./data_3x3/L929_cell.tif
 ```
