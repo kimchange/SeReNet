@@ -22,7 +22,7 @@ You can see that this folder is "save", and it is organized as:
 │                                               └── 📂 models
 │                                               └── 📂 utils
 │                                               ├── 📂 datasets
-│                                                            ├── 📄 \__init__.py
+│                                                            ├── 📄 __init__.py
 │                                                            └── 📄 image_folder.py
 │                                                            └── 📄 wrappers.py
 │                                               └── 📄 train.py
@@ -73,7 +73,6 @@ the training results, logs, intermediate files will be output to
 
 this can be more convenient to do something with code version control, especially when git server network not stable, and at the same time, this way will not occupy many disk space.
 
-
 To be more specific, for example,  `~/SeReNet/save/202505/serenet_Nnum13_bubtub_13v1-newtry/code/configs` stores your hyper_parameters, training data, which model to use...
 
 `~/SeReNet/save/202505/serenet_Nnum13_bubtub_13v1-newtry/code/datasets/image_folders.py` controls how your project interact with hardware disk storage
@@ -82,7 +81,6 @@ after load data from disk, `~/SeReNet/save/202505/serenet_Nnum13_bubtub_13v1-new
 
 after data preprocessing, `~/SeReNet/save/202505/serenet_Nnum13_bubtub_13v1-newtry/code/models/serenet.py` is the network choosed by `train_serenet.py` according to `configs`
 
-
-As you can see, I have combined these methods: 
+As you can see, I have combined these methods:
 
 SeReNet, VsNet, HyLFM-Net, VCD-Net, RL-Net all in this one structure. Wish this can be helpful to developers.
