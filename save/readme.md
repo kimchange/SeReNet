@@ -21,7 +21,7 @@ You can see that this folder is "save", and it is organized as:
 │                                               ├── 📂 configs
 │                                               └── 📂 models
 │                                               └── 📂 utils
-│                                               ├── 📂 datasets
+│                                               └── 📂 datasets
 │                                                            ├── 📄 __init__.py
 │                                                            └── 📄 image_folder.py
 │                                                            └── 📄 wrappers.py
@@ -47,7 +47,7 @@ You can see that this folder is "save", and it is organized as:
 │                     └── 📂 data_generation_code
 │                     └── 📂 GT_synthetic
 │                                  ├── 🔬 group001.tif
-│                                  ├── 🔬 group002.tif
+│                                  └── 🔬 group002.tif
 ├── 📂 twnet
 └── 📂 somethingelse
 ```
