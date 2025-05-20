@@ -58,9 +58,9 @@ model:
   name: serenet
   args:
     inChannels : 49
-    outChannels : 101
-    negative_slope: 0.1
+    reset_param: True
     usingbias: True
+    negative_slope: 0.1
 
 
 optimizer:
