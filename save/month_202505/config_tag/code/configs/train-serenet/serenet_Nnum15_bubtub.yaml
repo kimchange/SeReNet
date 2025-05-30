@@ -75,8 +75,9 @@ epoch_max: 800
 # loss_fn: 'utils.PoissonGaussianLoss(miu=20, var=5)'
 loss_fns:
   pixel_loss1: 'utils.NLLMPGLoss(miu=0, var=9)'
-
-
+  perceptual_loss: utils.LPIPS_vgg16_single_channel().cuda()
+# the function of perceptual loss is to be evaluated. if without pixel_loss and use perceptual_loss only, the output energy can be unstabel
+# but sometimes it can be useful 
 epoch_val: 50
 epoch_save: 50
 
