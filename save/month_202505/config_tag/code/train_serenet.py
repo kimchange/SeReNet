@@ -194,7 +194,7 @@ def train(train_loader, model, optimizer):
             # input_lf = torch.nn.functional.interpolate(input_lf, size = predLF.shape[2:], mode = 'bilinear', align_corners = False)
 
         B,A,H,W = input_lf.shape
-        input_lf_maxval = torch.quantile(input_lf.reshape(B,A,-1) , 0.999, dim=2).reshape(B,A,1,1).abs() + 1
+        input_lf_maxval = torch.quantile(input_lf.reshape(B,A,-1) , 0.999, dim=2).reshape(B,A,1,1).abs() + 1 # if maxval is 0.01, the division will still be stable 
         loss = loss_fns['pixel_loss1'](predLF,  input_lf) / input_lf_maxval.mean()
 
         # predLF, input_lf = predLF / input_lf_maxval,  input_lf / input_lf_maxval
