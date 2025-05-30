@@ -75,7 +75,7 @@ epoch_max: 800
 loss_fns:
   pixel_loss1: 'utils.NLLMPGLoss(miu=0, var=9)'
   perceptual_loss: utils.LPIPS_vgg16_single_channel().cuda()
-# LPIPS_vgg16_single_channel use torchvision's pretrained vgg16 model, I summed up the first convolutional weights manually to adapt single channel input
+# LPIPS_vgg16_single_channel use torchvision's pretrained vgg16 model, I summed up the first convolutional weights manually to adapt to single channel input
 
 epoch_val: 50
 epoch_save: 50
