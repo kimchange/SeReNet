@@ -278,6 +278,19 @@ If you use this code and relevant data, please cite the corresponding paper wher
 Lu, Z., Jin, M., Chen, S. et al. Physics-driven self-supervised learning for fast high-resolution robust 3D reconstruction of light-field microscopy. Nat Methods (2025). https://doi.org/10.1038/s41592-025-02698-z
 ```
 
+or bibtex format
+
+```
+@article{lu2025physics,
+  title={Physics-driven self-supervised learning for fast high-resolution robust 3D reconstruction of light-field microscopy},
+  author={Lu, Zhi and Jin, Manchang and Chen, Shuai and Wang, Xiaoge and Sun, Feihao and Zhang, Qi and Zhao, Zhifeng and Wu, Jiamin and Yang, Jingyu and Dai, Qionghai},
+  journal={Nature Methods},
+  pages={1--11},
+  year={2025},
+  publisher={Nature Publishing Group}
+}
+```
+
 # Correspondence
 
 Should you have any questions regarding this project and the corresponding results, please contact Zhi Lu (luzhi@tsinghua.edu.cn).
