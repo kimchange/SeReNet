@@ -35,7 +35,7 @@ def make_data_loader(spec, tag=''):
         log('  {}: shape={}'.format(k, tuple(v.shape)))
 
     loader = DataLoader(dataset, batch_size=spec['batch_size'],
-        shuffle=(tag == 'train'), num_workers=1+5*int(tag == 'train'), pin_memory=True, persistent_workers=True)
+        shuffle=(tag == 'train'), num_workers=1+5*int(tag == 'train'), pin_memory=True, persistent_workers=True) # if using windows, set "num_workers=1+5*int(tag == 'train'), persistent_workers=False", or you may get some unexpected bugs
     return loader
 
 
