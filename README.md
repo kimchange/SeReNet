@@ -40,18 +40,17 @@ Our repo is build mainly using PyTorch, so installing torch has higher priority,
 
 ### Obtain phase-space PSF and its center of mass "psfshift"
 
-<!-- ```
-cd ~/SeReNet/psf/psfcalc/
-
-matlab
-main_computePSF_serenet
-``` -->
-
 <!-- cd ~/SeReNet/psf/
 
 python get_psfshift.py -->
 
 The PSF file can be download from [here](https://drive.google.com/drive/folders/1FieOk-oLh0xGwOxP5IyXufbuSrLxrgvu?usp=drive_link), then put it into `~/SeReNet/psf/`
+
+```
+cd ~/SeReNet/psf/
+python get_psfshift.py
+```
+Use `~/SeReNet/psf/get_psfshift.py` to calculate the "psfshift", you may need to modify the filename in script.
 
 # DEMO
 
